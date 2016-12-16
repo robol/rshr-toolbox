@@ -1,4 +1,13 @@
-LAPACK = /home/leonardo/lapack-3.6.1/build/lib/liblapack.a /home/leonardo/lapack-3.6.1/build/lib/libblas.a
+# Use this variable to customize the LAPACK to include. Here is an example
+# that matches the configuration used in the paper
+#
+# Fast Hessenberg Reduction for some rank structured matrices,
+# L. Gemignani and L.Robol, https://arxiv.org/abs/1612.04196
+#
+# LAPACK = /path/to/lapack-3.6.1/build/lib/liblapack.a \
+#          /path/to/lapack-3.6.1/build/lib/libblas.a
+
+LAPACK = -llapack -lblas
 
 CFLAGS = -O2
 
