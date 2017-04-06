@@ -78,6 +78,12 @@ if debug_mode
     tic;
 end
 
+% Choose a right blocking for performance and stability
+if size(U2, 2) < 8
+	U2 = [ U2, zeros(size(U2,1), 8 - size(U2,2)) ];
+	V2 = [ V2, zeros(size(V2,1), 8 - size(V2,2)) ];
+end
+
 if need_change_of_basis
   [GR, WU, dd, ss, U2, V2, B, Q, QQ] = CMVToHessUnitaryReduction(SS, U2, V2);
   S = QQ * S;

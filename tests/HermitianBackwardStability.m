@@ -19,7 +19,7 @@ Ks = [ 2, 4, 8, 16, 32 ];
 lk = length(Ks);
 ln = length(Ns);
 
-R = zeros(ln, lk);
+R = zeros(ln, lk + 1);
 
 for i = 1 : ln
     for j = 1 : lk
@@ -35,9 +35,13 @@ for i = 1 : ln
         [D,U,V] = rshr_build_example(n, k, 'dlr');
         [H, S] = rshr_dlr(D, U, V);
         H = rshr_full(H);
-        R(i,j) = norm(H - S * (diag(D) + U*V') * S') / norm(diag(D + U*V'));
+        R(i,j) = norm(H - S * (diag(D) + U*V') * S') / norm(diag(D) + U*V');
         
         fprintf ('N = %d, K = %d, BE = %e\n', n, k, R(i,j));
-    end
+	end
+	
+	[P, H] = hess(diag(D) + U*V');
+	R(i,lk+1) = norm(diag(D) + U*V' - P*H*P') / norm(diag(D) + U*V');
 end
 
+dlmwrite('hermitian_backward.dat', [ Ns', R ], '\t');
